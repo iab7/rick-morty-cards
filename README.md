@@ -49,4 +49,4 @@ rick-morty-cards/
 
 ## Autor
 
-SEU NOME – [GitHub](https://github.com/SEU-USUARIO)
+Isaque Abreu Santos – [GitHub](https://github.com/iab7)

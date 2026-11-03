@@ -21,15 +21,6 @@ Projeto acadêmico da disciplina de Web Development Front-End (UniFECAF).
 - CSS3 puro (sem frameworks)
 - JavaScript (ES6+) com `fetch`
 
-## Como executar
-
-Não precisa instalar nada. Clone o repositório e abra o `index.html` no navegador:
-
-```bash
-git clone https://github.com/SEU-USUARIO/rick-morty-cards.git
-cd rick-morty-cards
-```
-
 ## Sobre a API
 
 - Endpoint usado: `https://rickandmortyapi.com/api/character`

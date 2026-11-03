@@ -98,7 +98,7 @@ function buscarPersonagens() {
     .then((resposta) => {
       // A API responde 404 quando a busca não encontra ninguém
       if (resposta.status === 404) return null;
-      if (!resposta.ok) throw new Error(`Erro ${resposta.status}`);
+      if (!resposta.ok) throw new Error(`a API respondeu com status ${resposta.status}`);
       return resposta.json();
     })
     .then((dados) => {
@@ -119,8 +119,8 @@ function buscarPersonagens() {
     .catch((erro) => {
       console.error("Falha ao buscar a API:", erro);
       grade.replaceChildren();
-      paginacao.hidden = true;
-      mostrarMensagem("Não foi possível carregar os personagens. Verifique sua conexão e tente de novo.", true);
+      atualizarPaginicao(); //mantém "Anterior" e "Próxima" visíveis"
+      mostrarMensagem(`Não foi possível carregar a página ${estado.pagina} (${erro.message}). Use "Anterior" ou tente de novo`, true);
     });
 }
 

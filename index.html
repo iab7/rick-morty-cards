@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rick and Morty – Catálogo de Personagens</title>
+  <meta name="description" content="Catálogo de personagens de Rick and Morty com dados da API pública rickandmortyapi.com.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="topo">
+    <div class="topo__texto">
+      <h1>Rick and Morty</h1>
+      <p class="topo__sub">Catálogo de personagens, direto da API</p>
+      <p class="topo__contagem" id="contagem" aria-live="polite">Abrindo o portal…</p>
+    </div>
+    <div class="portal" aria-hidden="true"></div>
+  </header>
+
+  <section class="controles" aria-label="Filtros">
+    <div class="campo">
+      <label for="busca">Buscar por nome</label>
+      <input type="search" id="busca" placeholder="Ex.: Rick, Morty, Summer" autocomplete="off">
+    </div>
+
+    <div class="campo">
+      <label for="filtro-status">Status</label>
+      <select id="filtro-status">
+        <option value="">Todos</option>
+        <option value="alive">Vivo</option>
+        <option value="dead">Morto</option>
+        <option value="unknown">Desconhecido</option>
+      </select>
+    </div>
+
+    <button type="button" class="btn-favoritos" id="btn-favoritos" aria-pressed="false">
+      <span aria-hidden="true">♥</span> Favoritos <span id="qtd-favoritos">0</span>
+    </button>
+  </section>
+
+  <main>
+    <p class="mensagem" id="mensagem" role="status" aria-live="polite"></p>
+
+    <!-- Os cards são criados pelo script.js -->
+    <div class="grade" id="cards"></div>
+
+    <nav class="paginacao" id="paginacao" aria-label="Paginação">
+      <button type="button" id="btn-anterior">Anterior</button>
+      <span id="pagina-info"></span>
+      <button type="button" id="btn-proxima">Próxima</button>
+    </nav>
+  </main>
+
+  <footer class="rodape">
+    Dados da <a href="https://rickandmortyapi.com/" target="_blank" rel="noopener">The Rick and Morty API</a>.
+    Projeto acadêmico, sem fins comerciais.
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

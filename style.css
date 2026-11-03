@@ -1,0 +1,321 @@
+/* ---------- Variáveis ---------- */
+:root {
+  --espaco: #1c1546;
+  --espaco-claro: #2c2272;
+  --portal: #8fe03a;
+  --portal-claro: #d9ff8a;
+  --papel: #f3f7ec;
+  --tinta: #1d1a3a;
+  --tinta-suave: #5a5877;
+  --vivo: #23803a;
+  --morto: #c0292b;
+  --desconhecido: #6b6b86;
+  --coracao: #ff5d73;
+  --raio: 14px;
+  --fonte-titulo: "Bowlby One", Impact, "Arial Black", sans-serif;
+  --fonte-texto: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--fonte-texto);
+  color: var(--papel);
+  background:
+    radial-gradient(circle at 85% -10%, var(--espaco-claro) 0, transparent 55%),
+    var(--espaco);
+  background-attachment: fixed;
+  line-height: 1.5;
+}
+
+:focus-visible {
+  outline: 3px solid var(--portal);
+  outline-offset: 3px;
+}
+
+/* ---------- Topo ---------- */
+.topo {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.topo h1 {
+  margin: 0;
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 8vw, 4.6rem);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--portal);
+  text-shadow: 3px 3px 0 #0d0a28;
+}
+
+.topo__sub {
+  margin: 0.6rem 0 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.topo__contagem {
+  margin: 0.25rem 0 0;
+  color: var(--portal-claro);
+  font-weight: 800;
+}
+
+/* O portal: elemento de destaque da página */
+.portal {
+  flex: none;
+  width: clamp(110px, 20vw, 190px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, #0b1608 0 24%, transparent 25%),
+    conic-gradient(from 0deg, #8fe03a, #e6ffb0, #2f9e44, #c9f56b, #5cbf2a, #8fe03a);
+  box-shadow:
+    0 0 25px 6px rgba(143, 224, 58, 0.55),
+    inset 0 0 22px 4px rgba(11, 22, 8, 0.7);
+  animation: girar 9s linear infinite;
+}
+
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Controles ---------- */
+.controles {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1 1 200px;
+}
+
+.campo label {
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.campo input,
+.campo select {
+  font: inherit;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background: var(--papel);
+  color: var(--tinta);
+}
+
+.campo input:focus,
+.campo select:focus {
+  border-color: var(--portal);
+}
+
+.btn-favoritos {
+  font: inherit;
+  font-weight: 800;
+  padding: 0.65rem 1.1rem;
+  border-radius: 10px;
+  border: 2px solid var(--coracao);
+  background: transparent;
+  color: var(--papel);
+  cursor: pointer;
+}
+
+.btn-favoritos span[aria-hidden] { color: var(--coracao); }
+
+.btn-favoritos:hover { background: rgba(255, 93, 115, 0.15); }
+
+.btn-favoritos[aria-pressed="true"] {
+  background: var(--coracao);
+  color: #2a0a10;
+}
+
+.btn-favoritos[aria-pressed="true"] span[aria-hidden] { color: #2a0a10; }
+
+/* ---------- Mensagens ---------- */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.25rem 2rem;
+}
+
+.mensagem {
+  min-height: 1.5rem;
+  margin: 0.5rem 0 1rem;
+  font-weight: 600;
+}
+
+.mensagem.erro { color: #ffb3b3; }
+
+/* ---------- Cards ---------- */
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.25rem;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1rem 1.25rem;
+  background: var(--papel);
+  color: var(--tinta);
+  border-radius: var(--raio);
+  box-shadow: 0 6px 0 #0d0a28;
+}
+
+.card__nome {
+  margin: 0;
+  padding: 0 2rem;
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.card__fav {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--coracao);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.card__fav:hover { background: rgba(255, 93, 115, 0.15); }
+
+.card__fav[aria-pressed="true"] { background: rgba(255, 93, 115, 0.18); }
+
+.card__foto {
+  margin: 0.8rem 0;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #dcdcdc;
+}
+
+.card__foto img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.7rem;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.card__status::before {
+  content: "";
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.card__status.vivo { color: var(--vivo); }
+.card__status.morto { color: var(--morto); }
+.card__status.desconhecido { color: var(--desconhecido); }
+
+.card__dados {
+  width: 100%;
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.75rem;
+  font-size: 0.92rem;
+}
+
+.card__dados dt {
+  font-weight: 800;
+  color: var(--tinta-suave);
+}
+
+.card__dados dd {
+  margin: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Paginação ---------- */
+.paginacao {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-weight: 800;
+}
+
+.paginacao[hidden] { display: none; }
+
+.paginacao button {
+  font: inherit;
+  font-weight: 800;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  border: 0;
+  background: var(--portal);
+  color: #10200a;
+  cursor: pointer;
+}
+
+.paginacao button:hover:not(:disabled) { background: var(--portal-claro); }
+
+.paginacao button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- Rodapé ---------- */
+.rodape {
+  padding: 1.5rem 1.25rem 2.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #c9c4ee;
+}
+
+.rodape a { color: var(--portal-claro); }
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 560px) {
+  .topo { padding-top: 1.5rem; }
+  .grade { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.9rem; }
+  .btn-favoritos { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal { animation: none; }
+}

@@ -1,4 +1,5 @@
 # Rick and Morty – Catálogo de Personagens
+**Acesse o projeto:** https://iab7.github.io/rick-morty-cards/
 
 Site estático que consome a [The Rick and Morty API](https://rickandmortyapi.com/) e exibe os personagens em cards criados dinamicamente com JavaScript.
 

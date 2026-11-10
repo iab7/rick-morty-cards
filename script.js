@@ -372,6 +372,12 @@ btnFavoritos.addEventListener("click", () => {
   buscarPersonagens();
 });
 
+const btnTopo = document.getElementById("btn-topo");
+window.addEventListener("scroll", () => {
+  btnTopo.hidden = window.scrollY < 400;
+});
+btnTopo.addEventListener("click", irParaTopo);
+
 // ---------- Início ----------
 atualizarContadorFavoritos();
 buscarPersonagens();

@@ -331,3 +331,21 @@ main {
   color: #10200a;
   cursor: pointer;
 }
+
+.topo-btn {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  width: 3rem;
+  height: 3rem;
+  border: 0;
+  border-radius: 50%;
+  background: var(--portal);
+  color: #10200a;
+  font-size: 1.4rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #0d0a28;
+}
+
+.topo-btn[hidden] { display: none; }

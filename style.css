@@ -319,3 +319,15 @@ main {
 @media (prefers-reduced-motion: reduce) {
   .portal { animation: none; }
 }
+
+.btn-repetir {
+  font: inherit;
+  font-weight: 800;
+  margin-left: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 8px;
+  border: 0;
+  background: var(--portal);
+  color: #10200a;
+  cursor: pointer;
+}

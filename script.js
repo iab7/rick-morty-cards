@@ -86,26 +86,80 @@ function montarUrl() {
   return `${API_URL}/?${parametros.toString()}`;
 }
 
+// Cache da sessão: uma página já carregada não é pedida de novo à API.
+// Isso reduz o número de requisições e evita o erro 429 (Too Many Requests).
+const PREFIXO_CACHE = "rm-cache:";
+
+function lerCache(url) {
+  try {
+    return JSON.parse(sessionStorage.getItem(PREFIXO_CACHE + url));
+  } catch (erro) {
+    return null;
+  }
+}
+
+function gravarCache(url, dados) {
+  try {
+    sessionStorage.setItem(PREFIXO_CACHE + url, JSON.stringify(dados));
+  } catch (erro) {
+    // Sem espaço ou bloqueado: o site continua funcionando, só sem cache.
+  }
+}
+
+let controlador = null; // permite cancelar a busca anterior
+
+function buscarNaApi(url, sinal) {
+  return fetch(url, { signal: sinal }).then((resposta) => {
+    // A API responde 404 quando a busca não encontra ninguém
+    if (resposta.status === 404) return null;
+    if (!resposta.ok) throw new Error(`a API respondeu com status ${resposta.status}`);
+    return resposta.json();
+  });
+}
+
+// Se a rede falhar, espera um pouco e tenta mais uma vez
+function buscarComNovaTentativa(url, sinal) {
+  return buscarNaApi(url, sinal).catch((erro) => {
+    if (erro.name === "AbortError" || erro.name === "TimeoutError") throw erro;
+    return new Promise((resolver) => setTimeout(resolver, 1500)).then(() =>
+      buscarNaApi(url, sinal)
+    );
+  });
+}
+
 function buscarPersonagens() {
   if (estado.soFavoritos) {
     mostrarFavoritos();
     return;
   }
 
-  mostrarMensagem("Carregando personagens…");
+  const url = montarUrl();
 
-  fetch(montarUrl())
-    .then((resposta) => {
-      // A API responde 404 quando a busca não encontra ninguém
-      if (resposta.status === 404) return null;
-      if (!resposta.ok) throw new Error(`a API respondeu com status ${resposta.status}`);
-      return resposta.json();
-    })
+  // Cancela a busca anterior e define um limite de 10 segundos
+  if (controlador) controlador.abort();
+  controlador = new AbortController();
+  const sinal = AbortSignal.any([controlador.signal, AbortSignal.timeout(10000)]);
+
+  mostrarMensagem("Carregando personagens…");
+  // Evita cliques repetidos enquanto a página carrega
+  btnAnterior.disabled = true;
+  btnProxima.disabled = true;
+
+  const emCache = lerCache(url);
+  const pedido = emCache
+    ? Promise.resolve(emCache)
+    : buscarComNovaTentativa(url, sinal).then((dados) => {
+        if (dados) gravarCache(url, dados);
+        return dados;
+      });
+
+  pedido
     .then((dados) => {
       if (!dados) {
         grade.replaceChildren();
         contagem.textContent = "0 personagens encontrados";
-        paginacao.hidden = true;
+        estado.totalPaginas = 1;
+        atualizarPaginacao();
         mostrarMensagem("Nenhum personagem encontrado. Tente outro nome ou status.");
         return;
       }
@@ -117,10 +171,22 @@ function buscarPersonagens() {
       atualizarPaginacao();
     })
     .catch((erro) => {
+      if (erro.name === "AbortError") return; // substituída por uma busca mais nova
+
       console.error("Falha ao buscar a API:", erro);
       grade.replaceChildren();
-      atualizarPaginicao(); //mantém "Anterior" e "Próxima" visíveis"
-      mostrarMensagem(`Não foi possível carregar a página ${estado.pagina} (${erro.message}). Use "Anterior" ou tente de novo`, true);
+      atualizarPaginacao(); // mantém "Anterior" e "Próxima" disponíveis
+      mostrarMensagem(
+        `Não foi possível carregar a página ${estado.pagina}. ` +
+          "A API pode estar limitando as requisições (erro 429) ou a conexão falhou. " +
+          "Aguarde um instante e tente de novo. ",
+        true
+      );
+
+      const botao = criarElemento("button", "btn-repetir", "Tentar novamente");
+      botao.type = "button";
+      botao.addEventListener("click", buscarPersonagens);
+      mensagem.appendChild(botao);
     });
 }
 
